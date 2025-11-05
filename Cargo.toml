@@ -1,0 +1,82 @@
+[workspace]
+members = [
+    "crates/udonsharp-core",
+    "crates/udonsharp-macros",
+    "crates/udonsharp-bindings", 
+    "crates/udonsharp-compiler",
+    "crates/udonsharp-cli",
+    "crates/cargo-udonsharp",
+    "crates/udonsharp-build",
+    "crates/wasm2usharp-enhanced",
+    "crates/udonsharp-performance"
+]
+exclude = [
+    "templates/udonsharp-project"
+]
+resolver = "2"
+
+[workspace.dependencies]
+# Core dependencies
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+tokio = { version = "1.0", features = ["full"] }
+anyhow = "1.0"
+thiserror = "1.0"
+log = "0.4"
+env_logger = "0.10"
+
+# WASM compilation
+wasm-bindgen = "0.2"
+wasm-pack = "0.12"
+
+# Code generation
+proc-macro2 = "1.0"
+quote = "1.0"
+syn = { version = "2.0", features = ["full"] }
+
+# CLI
+clap = { version = "4.0", features = ["derive"] }
+
+# Performance monitoring
+chrono = { version = "0.4", features = ["serde"] }
+uuid = { version = "1.0", features = ["v4"] }
+indicatif = "0.17"
+console = "0.15"
+humantime = "2.1"
+bytesize = "1.3"
+
+# File system and path handling
+walkdir = "2.0"
+glob = "0.3"
+
+# Testing
+criterion = "0.5"
+
+# WASM optimization
+wasm-opt = "0.116"
+console_error_panic_hook = "0.1"
+
+# Configuration parsing
+toml = "0.8"
+
+[profile.release]
+opt-level = 3
+codegen-units = 1
+
+[profile.dev]
+opt-level = 0
+debug = true
+
+# WASM-specific profiles for UdonSharp compilation
+[profile.wasm-release]
+inherits = "release"
+opt-level = "s"  # Optimize for size
+codegen-units = 1
+panic = "abort"
+strip = true
+
+[profile.wasm-dev]
+inherits = "dev"
+opt-level = 1
+debug = false
+panic = "abort"

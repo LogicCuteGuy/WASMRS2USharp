@@ -1,0 +1,27 @@
+[package]
+name = "wasm2usharp-enhanced"
+version = "0.1.0"
+edition = "2021"
+description = "Enhanced wasm2usharp with OOP behavior analysis"
+license = "MIT OR Apache-2.0"
+
+[dependencies]
+udonsharp-core = { path = "../udonsharp-core" }
+serde = { workspace = true }
+serde_json = { workspace = true }
+anyhow = { workspace = true }
+thiserror = { workspace = true }
+log = { workspace = true }
+regex = "1.10"
+chrono = { version = "0.4", features = ["serde"] }
+
+# WASM parsing and analysis
+wasmparser = "0.118"
+wasm-encoder = "0.38"
+
+# Note: Original wasm2usharp dependency removed for now
+# Will be implemented as part of the enhanced converter
+
+[features]
+default = []
+oop-analysis = []

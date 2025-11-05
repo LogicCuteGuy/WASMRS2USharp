@@ -1,0 +1,27 @@
+[package]
+name = "cargo-udonsharp"
+version = "0.1.0"
+edition = "2021"
+description = "Cargo subcommand for UdonSharp compilation"
+license = "MIT OR Apache-2.0"
+
+[[bin]]
+name = "cargo-udonsharp"
+path = "src/main.rs"
+
+[dependencies]
+udonsharp-core = { path = "../udonsharp-core" }
+udonsharp-bindings = { path = "../udonsharp-bindings" }
+udonsharp-compiler = { path = "../udonsharp-compiler" }
+udonsharp-build = { path = "../udonsharp-build" }
+clap = { workspace = true }
+anyhow = { workspace = true }
+tokio = { workspace = true }
+env_logger = { workspace = true }
+log = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+toml = { workspace = true }
+
+[features]
+default = []

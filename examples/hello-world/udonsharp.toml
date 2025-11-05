@@ -1,0 +1,18 @@
+[project]
+name = "HelloWorld"
+namespace = "Examples.HelloWorld"
+sync_mode = "None"
+
+[compilation]
+optimize_for_performance = false
+generate_debug_info = true
+target_udonsharp_version = "1.1"
+
+[compilation.dev]
+include_debug_comments = true
+wasm_opt_level = 1
+
+[compilation.release]
+optimize_for_performance = true
+generate_debug_info = false
+wasm_opt_level = 3

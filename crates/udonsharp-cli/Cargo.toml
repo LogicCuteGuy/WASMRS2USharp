@@ -1,0 +1,25 @@
+[package]
+name = "udonsharp-cli"
+version = "0.1.0"
+edition = "2021"
+description = "Command-line interface for Rust UdonSharp development"
+license = "MIT OR Apache-2.0"
+
+[[bin]]
+name = "udonsharp"
+path = "src/main.rs"
+
+[dependencies]
+udonsharp-core = { path = "../udonsharp-core" }
+udonsharp-bindings = { path = "../udonsharp-bindings" }
+udonsharp-compiler = { path = "../udonsharp-compiler" }
+clap = { workspace = true }
+anyhow = { workspace = true }
+tokio = { workspace = true }
+env_logger = { workspace = true }
+log = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+
+[features]
+default = []

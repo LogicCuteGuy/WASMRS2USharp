@@ -1,0 +1,11 @@
+[package]
+name = "multi-behavior-tutorial"
+version = "0.1.0"
+edition = "2021"
+description = "Tutorial demonstrating basic multi-behavior compilation"
+
+[dependencies]
+udonsharp-core = { path = "../../../crates/udonsharp-core" }
+
+[lib]
+crate-type = ["cdylib"]

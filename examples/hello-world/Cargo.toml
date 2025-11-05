@@ -1,0 +1,17 @@
+[package]
+name = "hello-world"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+udonsharp-core = { path = "../../crates/udonsharp-core" }
+udonsharp-macros = { path = "../../crates/udonsharp-macros" }
+udonsharp-bindings = { path = "../../crates/udonsharp-bindings" }
+log = "0.4"
+
+[lib]
+crate-type = ["cdylib"]
+
+[[bin]]
+name = "udonsharp-build"
+path = "build.rs"

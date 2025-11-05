@@ -1,0 +1,32 @@
+[package]
+name = "udonsharp-core"
+version = "0.1.0"
+edition = "2021"
+description = "Core traits and types for Rust UdonSharp integration"
+license = "MIT OR Apache-2.0"
+
+[dependencies]
+serde = { workspace = true }
+serde_json = { workspace = true }
+thiserror = { workspace = true }
+log = { workspace = true, features = ["std"] }
+
+# Proc macro dependencies for derive macros
+proc-macro2 = { workspace = true }
+quote = { workspace = true }
+syn = { workspace = true }
+anyhow.workspace = true
+paste = "1.0"
+
+# UdonSharp procedural macros
+udonsharp-macros = { path = "../udonsharp-macros" }
+
+# Regular library crate, not proc-macro
+
+[features]
+default = []
+wasm = ["wasm-bindgen"]
+
+[dependencies.wasm-bindgen]
+workspace = true
+optional = true

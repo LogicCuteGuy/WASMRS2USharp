@@ -1,0 +1,8 @@
+/target
+/generated
+Cargo.lock
+*.wasm
+*.cs
+.DS_Store
+*.tmp
+*.log

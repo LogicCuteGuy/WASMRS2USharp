@@ -1,0 +1,36 @@
+[package]
+name = "my-udonsharp-project"
+version = "0.1.0"
+edition = "2021"
+description = "UdonSharp project template"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+udonsharp-core = { path = "../../crates/udonsharp-core" }
+udonsharp-macros = { path = "../../crates/udonsharp-macros" }
+udonsharp-bindings = { path = "../../crates/udonsharp-bindings" }
+wasm-bindgen = "0.2"
+console_error_panic_hook = "0.1"
+log = "0.4"
+
+[build-dependencies]
+udonsharp-build = { path = "../../crates/udonsharp-build" }
+
+[dependencies.web-sys]
+version = "0.3"
+features = [
+  "console",
+]
+
+[profile.release]
+opt-level = "s"  # Optimize for size for UdonSharp compatibility
+lto = true
+codegen-units = 1
+panic = "abort"
+
+[profile.dev]
+opt-level = 1
+debug = false
+panic = "abort"

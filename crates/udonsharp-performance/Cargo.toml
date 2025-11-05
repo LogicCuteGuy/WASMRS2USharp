@@ -1,0 +1,29 @@
+[package]
+name = "udonsharp-performance"
+version = "0.1.0"
+edition = "2021"
+description = "Performance monitoring and optimization tools for UdonSharp compilation pipeline"
+
+[dependencies]
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+chrono = { version = "0.4", features = ["serde"] }
+tokio = { version = "1.0", features = ["full"] }
+anyhow = "1.0"
+thiserror = "1.0"
+uuid = { version = "1.0", features = ["v4"] }
+clap = { version = "4.0", features = ["derive"] }
+indicatif = "0.17"
+console = "0.15"
+humantime = "2.1"
+bytesize = "1.3"
+
+[dependencies.udonsharp-core]
+path = "../udonsharp-core"
+
+[dependencies.udonsharp-compiler]
+path = "../udonsharp-compiler"
+
+[lib]
+name = "udonsharp_performance"
+path = "src/lib.rs"

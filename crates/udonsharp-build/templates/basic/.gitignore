@@ -1,0 +1,5 @@
+/target
+/generated
+Cargo.lock
+*.wasm
+*.cs

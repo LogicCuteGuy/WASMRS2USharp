@@ -1,0 +1,14 @@
+# Cargo configuration for UdonSharp WASM compilation
+
+[target.wasm32-unknown-unknown]
+rustflags = [
+    "-C", "panic=abort",          # Abort on panic (smaller binary)
+    "--cfg", "target_feature=\"+bulk-memory\"",     # Enable bulk memory operations
+    "--cfg", "target_feature=\"+sign-ext\"",        # Enable sign extension
+    "--cfg", "target_feature=\"+mutable-globals\"", # Enable mutable globals
+]
+
+# Only enable build-std for WASM targets when explicitly requested
+# [unstable]
+# build-std = ["std", "panic_abort"]
+# build-std-features = ["panic_immediate_abort"]

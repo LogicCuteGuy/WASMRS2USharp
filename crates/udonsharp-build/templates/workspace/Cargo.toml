@@ -1,0 +1,24 @@
+[workspace]
+members = [
+    "src"
+]
+resolver = "2"
+
+[workspace.dependencies]
+udonsharp-core = { git = "https://github.com/vrchat-community/rust-udonsharp", branch = "main" }
+udonsharp-macros = { git = "https://github.com/vrchat-community/rust-udonsharp", branch = "main" }
+udonsharp-bindings = { git = "https://github.com/vrchat-community/rust-udonsharp", branch = "main" }
+wasm-bindgen = "0.2"
+console_error_panic_hook = "0.1"
+log = "0.4"
+
+[profile.release]
+opt-level = "s"
+lto = true
+codegen-units = 1
+panic = "abort"
+
+[profile.dev]
+opt-level = 1
+debug = false
+panic = "abort"

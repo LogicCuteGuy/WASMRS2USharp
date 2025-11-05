@@ -1,0 +1,36 @@
+[package]
+name = "udonsharp-project"
+version = "0.1.0"
+edition = "2021"
+description = "Basic UdonSharp project written in Rust"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+udonsharp-core = { git = "https://github.com/vrchat-community/rust-udonsharp", branch = "main" }
+udonsharp-macros = { git = "https://github.com/vrchat-community/rust-udonsharp", branch = "main" }
+udonsharp-bindings = { git = "https://github.com/vrchat-community/rust-udonsharp", branch = "main" }
+wasm-bindgen = "0.2"
+console_error_panic_hook = "0.1"
+log = "0.4"
+
+[build-dependencies]
+udonsharp-build = { git = "https://github.com/vrchat-community/rust-udonsharp", branch = "main" }
+
+[dependencies.web-sys]
+version = "0.3"
+features = [
+  "console",
+]
+
+[profile.release]
+opt-level = "s"
+lto = true
+codegen-units = 1
+panic = "abort"
+
+[profile.dev]
+opt-level = 1
+debug = false
+panic = "abort"
