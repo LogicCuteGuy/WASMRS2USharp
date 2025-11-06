@@ -10,6 +10,9 @@ use std::collections::HashSet;
 /// Result type for trait validation operations
 pub type ValidationResult<T> = Result<T, ValidationError>;
 
+/// Type alias for multiple struct validation results
+pub type TraitValidationResult = Vec<ValidationError>;
+
 /// Errors that can occur during trait validation
 #[derive(Debug, Clone)]
 pub enum ValidationError {

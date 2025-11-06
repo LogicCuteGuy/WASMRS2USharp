@@ -204,6 +204,7 @@ impl log::Log for UdonSharpLogger {
 }
 
 /// Compilation context that tracks diagnostics and configuration
+#[derive(Clone)]
 pub struct CompilationContext {
     pub reporter: Arc<DiagnosticReporter>,
     pub verbose: bool,

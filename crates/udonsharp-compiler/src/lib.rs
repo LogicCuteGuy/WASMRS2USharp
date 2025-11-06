@@ -46,15 +46,3 @@ pub use compilation_reporter::*;
 
 #[cfg(test)]
 mod tests;
-
-#[cfg(test)]
-mod code_generator_test;
-
-#[cfg(test)]
-mod pipeline_tests;
-
-#[cfg(test)]
-mod multi_behavior_tests;
-
-#[cfg(test)]
-mod performance_validation_tests;

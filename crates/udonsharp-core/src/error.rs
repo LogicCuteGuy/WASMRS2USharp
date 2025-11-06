@@ -316,6 +316,13 @@ impl UdonSharpError {
 /// Result type for UdonSharp operations
 pub type UdonSharpResult<T> = Result<T, UdonSharpError>;
 
+// Error conversion implementations
+impl From<syn::Error> for UdonSharpError {
+    fn from(error: syn::Error) -> Self {
+        UdonSharpError::compilation(format!("Syntax error: {}", error))
+    }
+}
+
 /// Diagnostic information for compilation issues
 #[derive(Debug, Clone)]
 pub struct Diagnostic {
@@ -399,7 +406,7 @@ impl Diagnostic {
 }
 
 /// Diagnostic collector for gathering compilation issues
-#[derive(Debug, Default)]
+#[derive(Debug, Default, Clone)]
 pub struct DiagnosticCollector {
     diagnostics: Vec<Diagnostic>,
 }
@@ -512,7 +519,7 @@ impl std::fmt::Display for Diagnostic {
 }
 
 /// Compilation context for tracking progress and diagnostics
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct CompilationContext {
     pub reporter: DiagnosticCollector,
     debug_mode: bool,

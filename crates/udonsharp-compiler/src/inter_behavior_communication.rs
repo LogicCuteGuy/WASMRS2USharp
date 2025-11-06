@@ -48,6 +48,12 @@ impl std::fmt::Display for CommunicationError {
 
 impl std::error::Error for CommunicationError {}
 
+impl From<CommunicationError> for udonsharp_core::error::UdonSharpError {
+    fn from(error: CommunicationError) -> Self {
+        udonsharp_core::error::UdonSharpError::inter_behavior_communication(format!("Communication error: {}", error))
+    }
+}
+
 /// Manager for GameObject references between behaviors
 pub struct GameObjectReferenceManager {
     /// Type mapper for Rust to C# conversion
@@ -415,7 +421,7 @@ pub enum InitializationStrategy {
 }
 
 /// Trait for GameObject reference validation rules
-pub trait GameObjectValidationRule {
+pub trait GameObjectValidationRule: Send + Sync {
     /// Validate a GameObject reference
     fn validate(&self, reference: &GameObjectReference) -> CommunicationResult<()>;
     
@@ -1163,7 +1169,7 @@ pub struct EventRoute {
 }
 
 /// Trait for parameter validation
-pub trait ParameterValidator {
+pub trait ParameterValidator: Send + Sync {
     /// Validate a parameter in the context of an event
     fn validate(&self, parameter: &EventParameter, event: &CustomEventDefinition) -> CommunicationResult<()>;
     
@@ -1581,7 +1587,7 @@ pub struct ParameterValidationResult {
 }
 
 /// Trait for parameter serialization strategies
-pub trait ParameterSerializationStrategy {
+pub trait ParameterSerializationStrategy: Send + Sync {
     /// Generate serialization helper code
     fn generate_serialization_helper(&self, parameter: &EventParameter) -> CommunicationResult<Vec<String>>;
     

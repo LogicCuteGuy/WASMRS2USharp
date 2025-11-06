@@ -19,7 +19,7 @@ anyhow.workspace = true
 paste = "1.0"
 
 # UdonSharp procedural macros
-udonsharp-macros = { path = "../udonsharp-macros" }
+udonsharp-macros = { path = "../udonsharp-macros", version = "0.1.0" }
 
 # Regular library crate, not proc-macro
 

@@ -6,9 +6,9 @@ description = "Build script integration for UdonSharp projects"
 license = "MIT OR Apache-2.0"
 
 [dependencies]
-udonsharp-core = { path = "../udonsharp-core" }
-udonsharp-bindings = { path = "../udonsharp-bindings" }
-udonsharp-compiler = { path = "../udonsharp-compiler" }
+udonsharp-core = { path = "../udonsharp-core", version = "0.1.0" }
+udonsharp-bindings = { path = "../udonsharp-bindings", version = "0.1.0" }
+udonsharp-compiler = { path = "../udonsharp-compiler", version = "0.1.0" }
 anyhow = { workspace = true }
 serde = { workspace = true }
 serde_json = { workspace = true }

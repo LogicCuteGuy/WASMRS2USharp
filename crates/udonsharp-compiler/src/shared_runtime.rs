@@ -45,6 +45,12 @@ impl std::fmt::Display for SharedRuntimeError {
 
 impl std::error::Error for SharedRuntimeError {}
 
+impl From<SharedRuntimeError> for udonsharp_core::error::UdonSharpError {
+    fn from(error: SharedRuntimeError) -> Self {
+        udonsharp_core::error::UdonSharpError::generation(format!("Shared runtime error: {}", error))
+    }
+}
+
 /// Represents a shared function that should be moved to SharedRuntime
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SharedFunction {

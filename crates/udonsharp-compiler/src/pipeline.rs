@@ -6,7 +6,7 @@
 use crate::config::UdonSharpConfig;
 use crate::prefab_generator::{UnityPrefabGenerator, PrefabGenerationResult};
 use crate::initialization_coordinator::{InitializationCoordinator, CoordinatorGenerationResult};
-use crate::standard_multi_behavior_integration::{StandardMultiBehaviorIntegration, StandardMultiBehaviorPipelineExt};
+use crate::standard_multi_behavior_integration::StandardMultiBehaviorPipelineExt;
 use udonsharp_core::{UdonSharpResult, error::CompilationContext};
 use wasm2usharp_enhanced::{
     EnhancedWasm2USharpPipeline, 
@@ -56,7 +56,7 @@ impl CompilationPipeline {
         // Step 2: Check if we should use standard multi-behavior pattern
         if self.should_use_standard_multi_behavior(&rust_source)? {
             self.context.info("Using standard multi-behavior compilation pattern");
-            return self.compile_with_standard_multi_behavior(&project_path, &rust_source).await;
+            return self.compile_with_standard_multi_behavior(&rust_source).await;
         }
         
         // Step 3: Fall back to WASM-based compilation for legacy support
@@ -429,35 +429,6 @@ struct MultiBehaviorAnalysis {
     shared_functions: Vec<String>,
     /// Function call graph
     call_graph: wasm2usharp_enhanced::CallGraph,
-}
-
-impl StandardMultiBehaviorPipelineExt for CompilationPipeline {
-    async fn compile_with_standard_multi_behavior<P: AsRef<Path>>(
-        &self,
-        project_path: P,
-        rust_source: &str,
-    ) -> UdonSharpResult<CompilationResult> {
-        // Create integration instance
-        let integration = StandardMultiBehaviorIntegration::new(
-            self.config.clone(),
-            self.context.clone(),
-        );
-        
-        // Compile using standard multi-behavior pattern
-        let result = integration.compile_multi_behavior(rust_source).await?;
-        
-        // Write files to disk
-        if let Some(output_dir) = &self.config.output_directory {
-            result.write_files_to_disk(output_dir)?;
-        } else {
-            // Use project directory as default
-            let project_dir = project_path.as_ref();
-            result.write_files_to_disk(project_dir)?;
-        }
-        
-        // Convert to standard CompilationResult
-        Ok(result.to_compilation_result())
-    }
 }
 
 impl CompilationPipeline {

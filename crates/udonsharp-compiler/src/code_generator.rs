@@ -59,6 +59,12 @@ impl std::fmt::Display for GenerationError {
 
 impl std::error::Error for GenerationError {}
 
+impl From<GenerationError> for udonsharp_core::error::UdonSharpError {
+    fn from(error: GenerationError) -> Self {
+        udonsharp_core::error::UdonSharpError::generation(format!("Code generation error: {}", error))
+    }
+}
+
 /// Represents a generated C# class
 #[derive(Debug, Clone)]
 pub struct GeneratedClass {

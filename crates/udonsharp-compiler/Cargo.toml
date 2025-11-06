@@ -6,9 +6,9 @@ description = "Rust to WASM to UdonSharp compilation pipeline"
 license = "MIT OR Apache-2.0"
 
 [dependencies]
-udonsharp-core = { path = "../udonsharp-core" }
-udonsharp-bindings = { path = "../udonsharp-bindings" }
-wasm2usharp-enhanced = { path = "../wasm2usharp-enhanced" }
+udonsharp-core = { path = "../udonsharp-core", version = "0.1.0" }
+udonsharp-bindings = { path = "../udonsharp-bindings", version = "0.1.0" }
+wasm2usharp-enhanced = { path = "../wasm2usharp-enhanced", version = "0.1.0" }
 serde = { workspace = true }
 serde_json = { workspace = true }
 serde_yaml = "0.9"

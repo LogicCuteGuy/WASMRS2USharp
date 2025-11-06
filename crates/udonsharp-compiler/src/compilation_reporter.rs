@@ -704,7 +704,7 @@ impl QualityAnalyzer {
 
     fn calculate_performance_score(&self, behaviors: &[UdonBehaviourStruct]) -> f32 {
         // Simplified performance scoring
-        let mut score = 1.0;
+        let mut score: f32 = 1.0;
 
         for behavior in behaviors {
             // Penalize for too many sync fields
@@ -720,7 +720,7 @@ impl QualityAnalyzer {
             }
         }
 
-        score.max(0.0)
+        score.max(0.0f32)
     }
 
     fn calculate_maintainability_index(&self, behaviors: &[UdonBehaviourStruct]) -> f32 {

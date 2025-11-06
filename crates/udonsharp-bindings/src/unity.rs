@@ -39,6 +39,16 @@ pub mod core {
         pub fn transform(&self) -> Transform {
             todo!("Implement transform binding")
         }
+        
+        /// Get a component of the specified type
+        pub fn get_component<T>(&self) -> Option<T> {
+            todo!("Implement GetComponent binding")
+        }
+        
+        /// Send a custom event to this GameObject
+        pub fn send_custom_event(&self, event_name: &str) {
+            todo!("Implement SendCustomEvent binding")
+        }
     }
     
     /// Unity Transform component

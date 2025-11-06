@@ -159,7 +159,7 @@ async fn execute_dependencies_analysis(args: DependenciesArgs) -> UdonSharpResul
     // Set up analysis
     let config = UdonSharpConfig::default();
     let context = CompilationContext::new();
-    let integration = StandardMultiBehaviorIntegration::new(config, context);
+    let mut integration = StandardMultiBehaviorIntegration::new(config, context);
     
     // Check if this is a multi-behavior project
     if !integration.should_use_multi_behavior(&source_code)? {
@@ -216,7 +216,7 @@ async fn execute_report_generation(args: ReportArgs) -> UdonSharpResult<()> {
     // Set up compilation
     let config = UdonSharpConfig::default();
     let context = CompilationContext::new();
-    let integration = StandardMultiBehaviorIntegration::new(config, context);
+    let mut integration = StandardMultiBehaviorIntegration::new(config, context);
     
     // Check if this is a multi-behavior project
     if !integration.should_use_multi_behavior(&source_code)? {
@@ -262,7 +262,7 @@ async fn execute_quality_analysis(args: QualityArgs) -> UdonSharpResult<()> {
     // Set up compilation
     let config = UdonSharpConfig::default();
     let context = CompilationContext::new();
-    let integration = StandardMultiBehaviorIntegration::new(config, context);
+    let mut integration = StandardMultiBehaviorIntegration::new(config, context);
     
     // Perform compilation
     let compilation_result = integration.compile_multi_behavior(&source_code).await?;
@@ -330,7 +330,7 @@ async fn execute_graph_generation(args: GraphArgs) -> UdonSharpResult<()> {
     // Set up analysis
     let config = UdonSharpConfig::default();
     let context = CompilationContext::new();
-    let integration = StandardMultiBehaviorIntegration::new(config, context);
+    let mut integration = StandardMultiBehaviorIntegration::new(config, context);
     
     // Check if this is a multi-behavior project
     if !integration.should_use_multi_behavior(&source_code)? {

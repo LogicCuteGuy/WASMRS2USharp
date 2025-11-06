@@ -18,11 +18,8 @@ console = "0.15"
 humantime = "2.1"
 bytesize = "1.3"
 
-[dependencies.udonsharp-core]
-path = "../udonsharp-core"
-
-[dependencies.udonsharp-compiler]
-path = "../udonsharp-compiler"
+udonsharp-core = { path = "../udonsharp-core", version = "0.1.0" }
+udonsharp-compiler = { path = "../udonsharp-compiler", version = "0.1.0" }
 
 [lib]
 name = "udonsharp_performance"

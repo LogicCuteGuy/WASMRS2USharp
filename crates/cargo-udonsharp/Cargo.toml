@@ -10,10 +10,10 @@ name = "cargo-udonsharp"
 path = "src/main.rs"
 
 [dependencies]
-udonsharp-core = { path = "../udonsharp-core" }
-udonsharp-bindings = { path = "../udonsharp-bindings" }
-udonsharp-compiler = { path = "../udonsharp-compiler" }
-udonsharp-build = { path = "../udonsharp-build" }
+udonsharp-core = { path = "../udonsharp-core", version = "0.1.0" }
+udonsharp-bindings = { path = "../udonsharp-bindings", version = "0.1.0" }
+udonsharp-compiler = { path = "../udonsharp-compiler", version = "0.1.0" }
+udonsharp-build = { path = "../udonsharp-build", version = "0.1.0" }
 clap = { workspace = true }
 anyhow = { workspace = true }
 tokio = { workspace = true }

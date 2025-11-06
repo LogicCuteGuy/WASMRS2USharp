@@ -94,6 +94,12 @@ impl std::fmt::Display for AnalysisError {
 
 impl std::error::Error for AnalysisError {}
 
+impl From<AnalysisError> for udonsharp_core::error::UdonSharpError {
+    fn from(error: AnalysisError) -> Self {
+        udonsharp_core::error::UdonSharpError::generation(format!("Analysis error: {}", error))
+    }
+}
+
 /// Main struct analyzer that parses UdonBehaviour structs from Rust AST
 pub struct StructAnalyzer {
     /// Parsed UdonBehaviour structs

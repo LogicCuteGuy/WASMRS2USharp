@@ -83,8 +83,50 @@ pub mod collections {
 pub mod string {
     use super::*;
     
-    /// C# String utilities
-    pub struct String;
+    /// C# String type
+    #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
+    pub struct String(pub std::string::String);
+    
+    impl String {
+        /// Create a new String from a Rust string
+        pub fn new(s: impl Into<std::string::String>) -> Self {
+            Self(s.into())
+        }
+        
+        /// Get the inner string
+        pub fn as_str(&self) -> &str {
+            &self.0
+        }
+        
+        /// Convert to owned string
+        pub fn into_string(self) -> std::string::String {
+            self.0
+        }
+    }
+    
+    impl std::fmt::Display for String {
+        fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+            write!(f, "{}", self.0)
+        }
+    }
+    
+    impl From<&str> for String {
+        fn from(s: &str) -> Self {
+            Self(s.to_string())
+        }
+    }
+    
+    impl From<std::string::String> for String {
+        fn from(s: std::string::String) -> Self {
+            Self(s)
+        }
+    }
+    
+    impl From<String> for std::string::String {
+        fn from(s: String) -> Self {
+            s.0
+        }
+    }
     
     impl String {
         /// Check if string is null or empty

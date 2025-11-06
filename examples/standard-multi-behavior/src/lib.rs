@@ -11,6 +11,7 @@
 //! - SharedRuntime: Automatically generated shared utilities
 
 use udonsharp_core::prelude::*;
+use udonsharp_bindings::*;
 
 /// Manages the overall game state, rounds, and timing
 #[derive(UdonBehaviour)]
@@ -113,10 +114,6 @@ impl UdonBehaviour for GameManager {
         self.update_ui();
     }
     
-    fn on_post_deserialization(&mut self) {
-        // Update UI when synchronized data changes
-        self.update_ui();
-    }
 }
 
 impl GameManager {
@@ -519,10 +516,6 @@ impl UdonBehaviour for ScoreSystem {
         log_info("ScoreSystem initialized");
     }
     
-    fn on_post_deserialization(&mut self) {
-        // Update UI when scores change
-        self.update_ui();
-    }
 }
 
 impl ScoreSystem {
@@ -609,17 +602,17 @@ pub fn format_time(seconds: f32) -> String {
     let total_seconds = seconds.max(0.0) as i32;
     let minutes = total_seconds / 60;
     let secs = total_seconds % 60;
-    format!("{}:{:02}", minutes, secs)
+    format!("{}:{:02}", minutes, secs).into()
 }
 
 /// Format score with appropriate suffixes (K, M, etc.)
 pub fn format_score(score: i32) -> String {
     if score >= 1_000_000 {
-        format!("{:.1}M", score as f32 / 1_000_000.0)
+        format!("{:.1}M", score as f32 / 1_000_000.0).into()
     } else if score >= 1_000 {
-        format!("{:.1}K", score as f32 / 1_000.0)
+        format!("{:.1}K", score as f32 / 1_000.0).into()
     } else {
-        score.to_string()
+        score.to_string().into()
     }
 }
 

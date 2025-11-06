@@ -383,7 +383,7 @@ impl DebugInfoGenerator {
 }
 
 /// Statistics about code generation
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
 pub struct CodeGenerationStats {
     pub fields_generated: usize,
     pub methods_generated: usize,
@@ -417,8 +417,10 @@ impl CodeGenerationStats {
             unity_events_generated: behavior.methods.iter().filter(|m| m.is_unity_event()).count(),
             sync_fields_generated: behavior.get_sync_fields().len(),
             gameobject_references_generated: behavior.fields.iter()
-                .filter(|f| matches!(f.field_type, crate::multi_behavior::RustType::GameObject | 
-                    crate::multi_behavior::RustType::Option(ref inner) if matches!(**inner, crate::multi_behavior::RustType::GameObject)))
+                .filter(|f| {
+                    matches!(f.field_type, crate::multi_behavior::RustType::GameObject) ||
+                    matches!(f.field_type, crate::multi_behavior::RustType::Option(ref inner) if matches!(**inner, crate::multi_behavior::RustType::GameObject))
+                })
                 .count(),
             generation_time_ms,
         }
