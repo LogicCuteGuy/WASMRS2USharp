@@ -15,11 +15,13 @@ use log::{info, warn, error};
 #[command(name = "cargo")]
 #[command(bin_name = "cargo")]
 enum CargoCli {
+    #[command(name = "udonsharp")]
     UdonSharp(UdonSharpArgs),
 }
 
 #[derive(Parser)]
 #[command(name = "udonsharp")]
+#[command(version)]
 #[command(about = "Compile Rust code to UdonSharp")]
 #[command(long_about = "Cargo subcommand for compiling Rust projects to UdonSharp-compatible C# for VRChat world development")]
 struct UdonSharpArgs {
