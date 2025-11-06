@@ -324,6 +324,10 @@ impl GameObject {
         // This will be replaced with actual binding in generated code
         Transform { handle: ObjectHandle::default() }
     }
+    
+    pub fn send_custom_event(&self, _event_name: &str) {
+        // This will be replaced with actual binding in generated code
+    }
 }
 
 #[derive(Debug, Clone)]

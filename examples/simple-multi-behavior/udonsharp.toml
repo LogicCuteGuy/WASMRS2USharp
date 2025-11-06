@@ -1,0 +1,15 @@
+# Simple Multi-Behavior Example Configuration
+
+[multi_behavior]
+enabled = true
+generate_shared_runtime = true
+naming_convention = "PascalCase"
+min_behaviors_threshold = 2
+
+[multi_behavior.prefab_settings]
+generate_individual_prefabs = true
+generate_master_prefab = true
+auto_setup_references = true
+
+[build]
+generate_debug_info = true

@@ -8,6 +8,9 @@ use std::path::Path;
 use std::fs;
 use log::{info, warn, error};
 
+mod analyze_command;
+use analyze_command::{AnalyzeSubcommand, execute_analyze_command};
+
 #[derive(Parser)]
 #[command(name = "udonsharp")]
 #[command(about = "Rust to UdonSharp compilation toolchain")]
@@ -147,6 +150,11 @@ enum Commands {
         #[arg(long)]
         git: bool,
     },
+    /// Analyze multi-behavior projects
+    Analyze {
+        #[command(subcommand)]
+        subcommand: AnalyzeSubcommand,
+    },
 }
 
 #[derive(ValueEnum, Clone, Debug)]
@@ -201,6 +209,9 @@ async fn main() -> UdonSharpResult<()> {
         }
         Commands::Init { path, template, git } => {
             handle_init_command(path, template, git).await
+        }
+        Commands::Analyze { subcommand } => {
+            execute_analyze_command(analyze_command::AnalyzeCommand { subcommand }).await
         }
     }
 }

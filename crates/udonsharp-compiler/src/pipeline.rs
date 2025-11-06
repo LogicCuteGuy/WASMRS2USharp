@@ -6,6 +6,7 @@
 use crate::config::UdonSharpConfig;
 use crate::prefab_generator::{UnityPrefabGenerator, PrefabGenerationResult};
 use crate::initialization_coordinator::{InitializationCoordinator, CoordinatorGenerationResult};
+use crate::standard_multi_behavior_integration::{StandardMultiBehaviorIntegration, StandardMultiBehaviorPipelineExt};
 use udonsharp_core::{UdonSharpResult, error::CompilationContext};
 use wasm2usharp_enhanced::{
     EnhancedWasm2USharpPipeline, 
@@ -49,13 +50,25 @@ impl CompilationPipeline {
             self.context.warning(format!("Failed to initialize logging: {}", e));
         }
         
-        // Step 1: Parse Rust source code and compile to WASM
+        // Step 1: Read Rust source code
+        let rust_source = self.read_rust_source(&project_path)?;
+        
+        // Step 2: Check if we should use standard multi-behavior pattern
+        if self.should_use_standard_multi_behavior(&rust_source)? {
+            self.context.info("Using standard multi-behavior compilation pattern");
+            return self.compile_with_standard_multi_behavior(&project_path, &rust_source).await;
+        }
+        
+        // Step 3: Fall back to WASM-based compilation for legacy support
+        self.context.info("Using WASM-based compilation (legacy mode)");
+        
+        // Parse Rust source code and compile to WASM
         let wasm_bytes = self.compile_rust_to_wasm(&project_path).await?;
         
-        // Step 2: Analyze WASM for multi-behavior patterns
+        // Analyze WASM for multi-behavior patterns
         let behavior_analysis = self.analyze_multi_behavior_patterns(&wasm_bytes)?;
         
-        // Step 3: Generate UdonSharp code
+        // Generate UdonSharp code
         let compilation_result = if behavior_analysis.behavior_units.len() > 1 {
             // Multi-behavior compilation
             self.compile_multi_behavior(&wasm_bytes, &behavior_analysis).await?
@@ -72,6 +85,50 @@ impl CompilationPipeline {
         Ok(compilation_result)
     }
     
+    /// Read Rust source code from project
+    fn read_rust_source<P: AsRef<Path>>(&self, project_path: P) -> UdonSharpResult<String> {
+        use std::fs;
+        
+        let project_path = project_path.as_ref();
+        
+        // Try to find the main source file
+        let possible_paths = [
+            project_path.join("src/lib.rs"),
+            project_path.join("src/main.rs"),
+            project_path.join("lib.rs"),
+            project_path.join("main.rs"),
+        ];
+        
+        for path in &possible_paths {
+            if path.exists() {
+                self.context.info(format!("Reading source from: {:?}", path));
+                return fs::read_to_string(path)
+                    .map_err(|e| udonsharp_core::UdonSharpError::compilation(
+                        format!("Failed to read source file {:?}: {}", path, e)
+                    ));
+            }
+        }
+        
+        Err(udonsharp_core::UdonSharpError::compilation(
+            format!("Could not find Rust source file in project: {:?}", project_path)
+        ))
+    }
+    
+    /// Check if we should use standard multi-behavior pattern
+    fn should_use_standard_multi_behavior(&self, rust_source: &str) -> UdonSharpResult<bool> {
+        // Check if standard multi-behavior pattern is enabled
+        if !self.config.multi_behavior.enabled {
+            return Ok(false);
+        }
+        
+        // Quick check for multiple #[derive(UdonBehaviour)] annotations
+        let udon_behaviour_count = rust_source.matches("#[derive(UdonBehaviour)]").count();
+        
+        self.context.info(format!("Found {} UdonBehaviour derive annotations", udon_behaviour_count));
+        
+        Ok(udon_behaviour_count >= self.config.multi_behavior.min_behaviors_threshold)
+    }
+
     /// Compile Rust source to WASM
     async fn compile_rust_to_wasm<P: AsRef<Path>>(&self, project_path: P) -> UdonSharpResult<Vec<u8>> {
         self.context.info("Compiling Rust to WASM...");
@@ -372,6 +429,35 @@ struct MultiBehaviorAnalysis {
     shared_functions: Vec<String>,
     /// Function call graph
     call_graph: wasm2usharp_enhanced::CallGraph,
+}
+
+impl StandardMultiBehaviorPipelineExt for CompilationPipeline {
+    async fn compile_with_standard_multi_behavior<P: AsRef<Path>>(
+        &self,
+        project_path: P,
+        rust_source: &str,
+    ) -> UdonSharpResult<CompilationResult> {
+        // Create integration instance
+        let integration = StandardMultiBehaviorIntegration::new(
+            self.config.clone(),
+            self.context.clone(),
+        );
+        
+        // Compile using standard multi-behavior pattern
+        let result = integration.compile_multi_behavior(rust_source).await?;
+        
+        // Write files to disk
+        if let Some(output_dir) = &self.config.output_directory {
+            result.write_files_to_disk(output_dir)?;
+        } else {
+            // Use project directory as default
+            let project_dir = project_path.as_ref();
+            result.write_files_to_disk(project_dir)?;
+        }
+        
+        // Convert to standard CompilationResult
+        Ok(result.to_compilation_result())
+    }
 }
 
 impl CompilationPipeline {

@@ -8,7 +8,9 @@ members = [
     "crates/cargo-udonsharp",
     "crates/udonsharp-build",
     "crates/wasm2usharp-enhanced",
-    "crates/udonsharp-performance"
+    "crates/udonsharp-performance",
+    "examples/simple-multi-behavior",
+    "examples/standard-multi-behavior"
 ]
 exclude = [
     "templates/udonsharp-project"

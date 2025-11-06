@@ -1,0 +1,11 @@
+[package]
+name = "standard-multi-behavior-example"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+udonsharp-core = { path = "../../crates/udonsharp-core" }
+udonsharp-macros = { path = "../../crates/udonsharp-macros" }
+
+[lib]
+crate-type = ["cdylib"]

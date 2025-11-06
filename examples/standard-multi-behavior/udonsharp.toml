@@ -1,0 +1,56 @@
+# UdonSharp-Rust Configuration for Standard Multi-Behavior Example
+
+[multi_behavior]
+# Enable multi-behavior compilation
+enabled = true
+
+# Generate SharedRuntime for shared functions
+generate_shared_runtime = true
+
+# Use PascalCase naming for generated C# classes
+naming_convention = "PascalCase"
+
+# Require at least 2 behaviors to enable multi-behavior mode
+min_behaviors_threshold = 2
+
+# Generate Unity prefab files
+generate_prefabs = true
+
+[multi_behavior.prefab_settings]
+# Generate individual prefabs for each behavior
+generate_individual_prefabs = true
+
+# Generate a master prefab containing all behaviors
+generate_master_prefab = true
+
+# Automatically set up GameObject references between behaviors
+auto_setup_references = true
+
+# Include an example scene demonstrating the behaviors
+include_example_scene = true
+
+# Output directory for generated prefabs
+output_directory = "Generated/Prefabs"
+
+[multi_behavior.initialization_order]
+# Automatically determine initialization order based on dependencies
+auto_determine_order = true
+
+# Generate a coordinator to manage initialization
+generate_coordinator = true
+
+# Name of the coordinator class
+coordinator_class_name = "GameSystemCoordinator"
+
+# Use Unity's script execution order system
+use_script_execution_order = true
+
+[build]
+# Generate debug information for easier debugging
+generate_debug_info = true
+
+# Optimize for performance
+optimize_for_performance = true
+
+# Target UdonSharp version
+target_udonsharp_version = "1.0"
