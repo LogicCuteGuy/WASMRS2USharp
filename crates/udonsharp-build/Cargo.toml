@@ -6,8 +6,6 @@ description = "Build script integration for UdonSharp projects"
 license = "MIT OR Apache-2.0"
 exclude = ["templates/**/target/**"]
 
-[workspace]
-
 [dependencies]
 udonsharp-core = { path = "../udonsharp-core", version = "0.1.0" }
 udonsharp-bindings = { path = "../udonsharp-bindings", version = "0.1.0" }
