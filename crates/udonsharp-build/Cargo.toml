@@ -4,6 +4,7 @@ version = "0.1.0"
 edition = "2021"
 description = "Build script integration for UdonSharp projects"
 license = "MIT OR Apache-2.0"
+include = ["src/**/*", "templates/**/*"]
 
 [dependencies]
 udonsharp-core = { path = "../udonsharp-core", version = "0.1.0" }
